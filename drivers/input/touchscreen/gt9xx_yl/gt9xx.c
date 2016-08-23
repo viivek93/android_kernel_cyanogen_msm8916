@@ -187,12 +187,7 @@ enum support_gesture_e {
 								TW_SUPPORT_M_SLIDE_WAKEUP | TW_SUPPORT_DOUBLE_CLICK_WAKEUP)
 };
 
-u32 support_gesture = TW_SUPPORT_DOUBLE_CLICK_WAKEUP |
-		TW_SUPPORT_DOWN_SLIDE_WAKEUP |
-		TW_SUPPORT_LEFT_SLIDE_WAKEUP |
-		TW_SUPPORT_RIGHT_SLIDE_WAKEUP |
-		TW_SUPPORT_O_SLIDE_WAKEUP |
-		TW_SUPPORT_C_SLIDE_WAKEUP;
+u32 support_gesture = TW_SUPPORT_DOUBLE_CLICK_WAKEUP;
 char wakeup_slide[32];
 
 #endif
@@ -613,7 +608,6 @@ static void goodix_ts_work_func(struct work_struct *work)
     char **envp;
 
     u8 doze_buf[3] = {0x81, 0x4B};
-    uint16_t gesture_key = KEY_UNKNOWN;
 #endif
     GTP_DEBUG_FUNC();
 
@@ -640,7 +634,6 @@ static void goodix_ts_work_func(struct work_struct *work)
                 doze_status = DOZE_WAKEUP;
                 sprintf(wakeup_slide,"right");
                 envp = right_wakeup;	//added by yewenliang for test
-                gesture_key = KEY_GESTURE_SLIDE_RIGHT;
             }
             else if ((doze_buf[2] == 0xBB) && (support_gesture & TW_SUPPORT_LEFT_SLIDE_WAKEUP))
             {
@@ -648,7 +641,6 @@ static void goodix_ts_work_func(struct work_struct *work)
                 doze_status = DOZE_WAKEUP;
                 sprintf(wakeup_slide,"left");
                 envp = left_wakeup;	//added by yewenliang for test
-                gesture_key = KEY_GESTURE_SLIDE_LEFT;
             }
             else if ((0xC0 == (doze_buf[2] & 0xC0)) && (support_gesture & TW_SUPPORT_DOUBLE_CLICK_WAKEUP))
             {
@@ -656,7 +648,6 @@ static void goodix_ts_work_func(struct work_struct *work)
                 doze_status = DOZE_WAKEUP;
                 sprintf(wakeup_slide,"double_click");
                 envp = doubleClick_wakeup;	//added by yewenliang for test
-                gesture_key = KEY_WAKEUP;
             }
             else if ((doze_buf[2] == 0xBA) && (support_gesture & TW_SUPPORT_UP_SLIDE_WAKEUP))
             {
@@ -671,7 +662,6 @@ static void goodix_ts_work_func(struct work_struct *work)
                 doze_status = DOZE_WAKEUP;
                 sprintf(wakeup_slide,"down");
                 envp = down_wakeup;	//added by yewenliang for test
-                gesture_key = KEY_GESTURE_SLIDE_DOWN;
             }
             else if ((doze_buf[2] == 0x63) && (support_gesture & TW_SUPPORT_C_SLIDE_WAKEUP))
             {
@@ -679,7 +669,6 @@ static void goodix_ts_work_func(struct work_struct *work)
                 doze_status = DOZE_WAKEUP;
                 sprintf(wakeup_slide,"c");
                 envp = c_wakeup;	//added by yewenliang for test
-                gesture_key = KEY_GESTURE_SLIDE_C;
             }
             else if ((doze_buf[2] == 0x65) && (support_gesture & TW_SUPPORT_E_SLIDE_WAKEUP))
             {
@@ -701,7 +690,6 @@ static void goodix_ts_work_func(struct work_struct *work)
                 doze_status = DOZE_WAKEUP;
                 sprintf(wakeup_slide,"o");
                 envp = o_wakeup;	//added by yewenliang for test
-                gesture_key = KEY_GESTURE_SLIDE_O;
             }
             else if ((doze_buf[2] == 0x77) && (support_gesture & TW_SUPPORT_W_SLIDE_WAKEUP))
             {
@@ -720,9 +708,9 @@ static void goodix_ts_work_func(struct work_struct *work)
             }
         }
 
-        if (doze_status == DOZE_WAKEUP && gesture_key != KEY_UNKNOWN) {
-             input_report_key(ts->input_dev, gesture_key, 1);
-             input_report_key(ts->input_dev, gesture_key, 0);
+        if (doze_status == DOZE_WAKEUP) {
+             input_report_key(ts->input_dev, KEY_WAKEUP, 1);
+             input_report_key(ts->input_dev, KEY_WAKEUP, 0);
              input_sync(ts->input_dev);
 
              // clear 0x814B
@@ -1600,11 +1588,6 @@ static s8 gtp_request_input_dev(struct goodix_ts_data *ts)
 #if GTP_SLIDE_WAKEUP
     set_bit(EV_KEY, ts->input_dev->evbit);
     set_bit(KEY_WAKEUP, ts->input_dev->keybit);
-    set_bit(KEY_GESTURE_SLIDE_DOWN, ts->input_dev->keybit);
-    set_bit(KEY_GESTURE_SLIDE_LEFT, ts->input_dev->keybit);
-    set_bit(KEY_GESTURE_SLIDE_RIGHT, ts->input_dev->keybit);
-    set_bit(KEY_GESTURE_SLIDE_C, ts->input_dev->keybit);
-    set_bit(KEY_GESTURE_SLIDE_O, ts->input_dev->keybit);
 #endif 
 #if GTP_CHANGE_X2Y
     GTP_SWAP(ts->abs_x_max, ts->abs_y_max);
