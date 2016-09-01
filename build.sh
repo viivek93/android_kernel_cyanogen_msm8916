@@ -26,7 +26,7 @@ echo -e "$gre Welcome to Kernel building program$white"
 echo -e " "
 echo -e "$yellow Select which toolchain you want to build with?$white"
 echo -e "$yellow 1.UBERTC AARCH64$white"
-echo -e "$yellow 2.SABERMOD AARCH64"
+echo -e "$yellow 2.LINARO AARCH64"
 echo -e "$yellow 3.GOOGLE AARCH64"
 echo -n " Enter your choice:"
 read choice
@@ -35,10 +35,10 @@ case $choice in
    export LD_LIBRARY_PATH=home/vivek/toolchain/aarch64-linux-ubertc-android-4.9/lib/
    STRIP="/home/vivek/toolchain/aarch64-linux-ubertc-android-4.9/bin/aarch64-linux-android-strip"
    echo -e "$gre You selected UBERTC$white" ;;
-2) export CROSS_COMPILE="/home/vivek/toolchain/aarch64-linux-sabermod-android-4.9/bin/aarch64-linux-android-"
-   export LD_LIBRARY_PATH=home/vivek/toolchain/aarch64-linux-sabermod-android-4.9/lib/
-   STRIP="/home/vivek/toolchain/aarch64-linux-sabermod-android-4.9/bin/aarch64-linux-android-strip"
-   echo -e "$gre You selected SABERMOD$white" ;;
+2) export CROSS_COMPILE="/home/vivek/toolchain/aarch64-linux-linaro-android-4.9/bin/aarch64-linux-android-"
+   export LD_LIBRARY_PATH=home/vivek/toolchain/aarch64-linux-linaro-android-4.9/lib/
+   STRIP="/home/vivek/toolchain/aarch64-linux-linaro-android-4.9/bin/aarch64-linux-android-strip"
+   echo -e "$gre You selected LINARO$white" ;;
 3) export CROSS_COMPILE="/home/vivek/toolchain/aarch64-linux-google-android-4.9/bin/aarch64-linux-android-"
    export LD_LIBRARY_PATH=home/vivek/toolchain/aarch64-linux-google-android-4.9/lib/
    STRIP="/home/vivek/toolchain/aarch64-linux-google-android-4.9/bin/aarch64-linux-android-strip"
@@ -88,7 +88,7 @@ $STRIP --strip-unneeded *.ko
 cd ~/outl/
 case $choice in
 1) zip -r Thunderbird-uc-lettuce.zip * ;;
-2) zip -r Thunderbird-sm-lettuce.zip * ;;
+2) zip -r Thunderbird-lc-lettuce.zip * ;;
 3) zip -r Thunderbird-gc-lettuce.zip * ;;
 *) echo -e "error" ;;
 esac
@@ -107,7 +107,7 @@ $STRIP --strip-unneeded *.ko
 cd ~/out/
 case $choice in
 1) zip -r Thunderbird-uc-tomato.zip * ;;
-2) zip -r Thunderbird-sm-tomato.zip * ;;
+2) zip -r Thunderbird-lc-tomato.zip * ;;
 3) zip -r Thunderbird-gc-tomato.zip * ;;
 *) echo -e "error" ;;
 esac
