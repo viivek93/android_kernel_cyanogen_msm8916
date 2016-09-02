@@ -87,9 +87,9 @@ cd modules/
 $STRIP --strip-unneeded *.ko
 cd ~/outl/
 case $choice in
-1) zip -r Thunderbird-uc-lettuce.zip * ;;
-2) zip -r Thunderbird-lc-lettuce.zip * ;;
-3) zip -r Thunderbird-gc-lettuce.zip * ;;
+1) zip -r Thunderbird-uber-lettuce.zip * ;;
+2) zip -r Thunderbird-linaro-lettuce.zip * ;;
+3) zip -r Thunderbird-google-lettuce.zip * ;;
 *) echo -e "error" ;;
 esac
 mv *.zip ~/final/
@@ -106,9 +106,9 @@ cd modules/
 $STRIP --strip-unneeded *.ko
 cd ~/out/
 case $choice in
-1) zip -r Thunderbird-uc-tomato.zip * ;;
-2) zip -r Thunderbird-lc-tomato.zip * ;;
-3) zip -r Thunderbird-gc-tomato.zip * ;;
+1) zip -r Thunderbird-uber-tomato.zip * ;;
+2) zip -r Thunderbird-linaro-tomato.zip * ;;
+3) zip -r Thunderbird-google-tomato.zip * ;;
 *) echo -e "error" ;;
 esac
 mv *.zip ~/final/
